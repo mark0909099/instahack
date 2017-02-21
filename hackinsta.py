@@ -62,8 +62,8 @@ def Login(username,password):
 	if (data['authenticated'] == True):
 		return sess #if we want to keep use session
 	else:
-		return False
 		print ('Password incorrect [%s]' % password)
+		return False
 
 
 
