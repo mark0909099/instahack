@@ -16,12 +16,22 @@ else:
 	exit()
 
 
+#can be some bugs
 myProxy = ''
-
+proxyUsed = []
 def randomProxy():
 	global myProxy
-	myProxy = random.choice(open('proxy.txt').read().splitlines())
+	global proxyUsed
+	plist = open('proxy.txt').read().splitlines()
+	nproxy = random.choice(plist)
+
+	if not (nproxy in proxyUsed):
+		myProxy = nproxy
+		proxyUsed.append(myProxy)
+
+
 	print ('Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": myProxy, "https": myProxy }).text)
+
 
 def userExists(username):
 	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
