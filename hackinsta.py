@@ -110,7 +110,7 @@ delayLoop = int(input('Please add delay between the passwords (in seconds): '))
 
 
 UsePorxy = input('Do you want to use proxy (y/n): ')
-if (UsePorxy == 'y'):
+if (UsePorxy == 'y' or UsePorxy == 'yes'):
 	randomProxy()
 
 for i in range(len(passwords)):
