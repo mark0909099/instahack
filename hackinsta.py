@@ -131,13 +131,3 @@ for i in range(len(passwords)):
 		
 
 
-'''
-def follow(sess, username):
-	username = userExists(username)
-	if (username == False):
-		return	
-	else:
-		userID = username['id']
-		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
-		print (followReq.text)
-'''
