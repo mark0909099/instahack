@@ -105,6 +105,6 @@ for i in range(len(passwords)):
 		if (an == 'y'):
 			exit()
 		else:
-			continue
+			continue.
 		
 
