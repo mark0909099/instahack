@@ -9,7 +9,7 @@ if os.path.isfile(filename):
 	    passwords = f.read().splitlines()
 	    if (len(passwords) > 0):
 	    	print ('%s Passwords loads successfully' % len(passwords))
-else:
+else:a_21980
 	print ('Please create passwords file (pass.txt)')
 	exit()
 
