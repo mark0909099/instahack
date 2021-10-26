@@ -1,8 +1,10 @@
 
 ## INSTALLATION [Termux] :
 
+* `pkg install git`
+* `pkg install python`
 * `git clone https://github.com/mark0909099/instahack`
 * `cd instahack`
-* `chmod +x *`
-* `./install.sh`
-* `Just Type :- DNA-recon`
+* `pip install requests`
+* `python hackinsta.py`
+
