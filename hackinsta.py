@@ -23,7 +23,7 @@ def userExists(username):
 		return False
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
-		fUserID = followdata['user']['id']
+		fUserID = followdata['graphql']['user']['id']
 		return {'username':username,'id':fUserID}
 
 
