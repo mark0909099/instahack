@@ -4,8 +4,8 @@ import time
 import os
 
 filename = 'pass.txt'
-if os.path.isfile(filename):
-	with open(filename) as f:
+if os.path.isfile(filename):instagram
+	with open(filename) as f:instagram
 	    passwords = f.read().splitlines()
 	    if (len(passwords) > 0):
 	    	print ('%s Passwords loads successfully' % len(passwords))
@@ -24,10 +24,10 @@ def userExists(username):
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':dressc_id,'id':fUserID}
 
 
-def Login(username,password):
+def Login(username,password):dressc_id 12345678
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
