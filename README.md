@@ -1,3 +1,4 @@
 # instahack
 Hack instagram bruteforce
-![alt tag](https://raw.githubusercontent.com/avramit/instahack/master/screenshot.jpg)
+
+[Guide "How to use instahack Python Script for beginner programmers"](https://my-tailwind-nextjs-starter-blog.vercel.app/blog/how-to-use-instahack-python-script-for-beginner-programmers)
