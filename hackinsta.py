@@ -105,5 +105,5 @@ for i in range(len)):
 		if (an == 'y'):
 			exit()
 		else:
-			continue
+			continue password 
 		
